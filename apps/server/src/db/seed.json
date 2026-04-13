@@ -1,0 +1,1501 @@
+{
+  "generated_at": "2026-04-13T12:58:12.639Z",
+  "source": "/var/lib/docker/volumes/floom-marketplace-deploy_floom-marketplace-data/_data/floom.db",
+  "apps": [
+    {
+      "slug": "blast-radius",
+      "name": "Blast Radius",
+      "description": "Find all files affected by your changes. One bash script, zero dependencies. Clone a public git repo and report which files are touched by a branch diff.",
+      "category": "developer-tools",
+      "icon": null,
+      "author": "buildingopen",
+      "docker_image": "floom-app-app_bngm922dhr:v2",
+      "marketplace_app_id": "app_bngm922dhr",
+      "manifest": {
+        "name": "Blast Radius",
+        "description": "Find all files affected by your changes. One bash script, zero dependencies.",
+        "actions": {
+          "analyze": {
+            "label": "Analyze Repo",
+            "inputs": [
+              {
+                "name": "repo_url",
+                "label": "Repo URL",
+                "type": "url",
+                "required": true,
+                "description": "Public HTTPS git URL (e.g. https://github.com/owner/repo)."
+              },
+              {
+                "name": "base_branch",
+                "label": "Base Branch",
+                "type": "text",
+                "required": false,
+                "default": "HEAD~5",
+                "description": "Branch/ref to diff against. Defaults to HEAD~5 (last 5 commits). Use \"main\" to diff against the main branch."
+              },
+              {
+                "name": "head_ref",
+                "label": "Head Ref",
+                "type": "text",
+                "required": false,
+                "default": "HEAD",
+                "description": "Ref to check out before diffing. Leave as HEAD to use the default branch."
+              }
+            ],
+            "outputs": [
+              {
+                "name": "summary",
+                "label": "Summary",
+                "type": "text"
+              },
+              {
+                "name": "changed",
+                "label": "Changed Files",
+                "type": "json"
+              },
+              {
+                "name": "affected",
+                "label": "Affected Files",
+                "type": "json"
+              },
+              {
+                "name": "tests",
+                "label": "Test Files",
+                "type": "json"
+              }
+            ],
+            "description": "Clone a public git repo and report which files are affected by a branch diff."
+          }
+        },
+        "runtime": "python",
+        "python_dependencies": [],
+        "node_dependencies": {},
+        "secrets_needed": [],
+        "manifest_version": "2.0",
+        "apt_packages": [
+          "jq"
+        ]
+      }
+    },
+    {
+      "slug": "bouncer",
+      "name": "Bouncer",
+      "description": "Gemini stands at the door. Independent quality gate that audits any AI agent output and returns a 0-10 score, issues list, and PASS/FAIL verdict.",
+      "category": "productivity",
+      "icon": null,
+      "author": "buildingopen",
+      "docker_image": "floom-app-app_epspwz495n:v1",
+      "marketplace_app_id": "app_epspwz495n",
+      "manifest": {
+        "name": "Bouncer",
+        "description": "Gemini stands at the door. Independent quality gate that audits an AI agent's output and returns a 0-10 score, issues list, and PASS/FAIL verdict. Built to catch unverified claims before they ship.",
+        "actions": {
+          "audit": {
+            "label": "Audit Output",
+            "inputs": [
+              {
+                "name": "assistant_text",
+                "label": "Assistant Output",
+                "type": "textarea",
+                "required": true,
+                "description": "The full text the agent produced and wants audited."
+              },
+              {
+                "name": "diff_text",
+                "label": "Code Diff (optional)",
+                "type": "textarea",
+                "required": false,
+                "description": "Optional git diff to ground coding-task audits against real changes."
+              },
+              {
+                "name": "task_context",
+                "label": "Task Context (optional)",
+                "type": "textarea",
+                "required": false,
+                "description": "Optional context: user request, project rules, workplan."
+              },
+              {
+                "name": "model",
+                "label": "Gemini Model",
+                "type": "text",
+                "required": false,
+                "default": "gemini-3.1-pro-preview",
+                "description": "Gemini model to use for scoring."
+              }
+            ],
+            "outputs": [
+              {
+                "name": "score",
+                "label": "Score",
+                "type": "number"
+              },
+              {
+                "name": "verdict",
+                "label": "Verdict",
+                "type": "text"
+              },
+              {
+                "name": "passed",
+                "label": "Passed",
+                "type": "text"
+              },
+              {
+                "name": "issues",
+                "label": "Issues",
+                "type": "json"
+              },
+              {
+                "name": "raw",
+                "label": "Raw Response",
+                "type": "text"
+              }
+            ],
+            "description": "Score an AI agent's final response with Gemini as an independent reviewer. Returns score/10, issues, and PASS/FAIL."
+          }
+        },
+        "runtime": "python",
+        "python_dependencies": [
+          "google-genai==1.64.0"
+        ],
+        "node_dependencies": {},
+        "secrets_needed": [
+          "GEMINI_API_KEY"
+        ],
+        "manifest_version": "2.0"
+      }
+    },
+    {
+      "slug": "claude-wrapped",
+      "name": "Claude Wrapped",
+      "description": "Spotify Wrapped for Claude Code. Visualize your AI coding stats from session transcripts.",
+      "category": "productivity",
+      "icon": null,
+      "author": "buildingopen",
+      "docker_image": "floom-app-app_24ya87szy5:v1",
+      "marketplace_app_id": "app_24ya87szy5",
+      "manifest": {
+        "name": "Claude Wrapped",
+        "description": "Spotify Wrapped for Claude Code. Visualize your AI coding stats from session transcripts.",
+        "actions": {
+          "generate": {
+            "label": "Generate Wrapped",
+            "inputs": [
+              {
+                "name": "jsonl_sessions",
+                "label": "Session JSONL",
+                "type": "textarea",
+                "required": true,
+                "description": "Paste the full contents of one or more ~/.claude/projects/<project>/<session>.jsonl files. Separate multiple sessions with a line containing only '---'."
+              },
+              {
+                "name": "author",
+                "label": "Author",
+                "type": "text",
+                "required": false,
+                "default": "Claude Code User",
+                "description": "Display name for the report header."
+              },
+              {
+                "name": "project_slug",
+                "label": "Project Slug",
+                "type": "text",
+                "required": false,
+                "default": "my-project",
+                "description": "Slug used to group sessions under a single project bucket."
+              }
+            ],
+            "outputs": [
+              {
+                "name": "sessions",
+                "label": "Sessions Parsed",
+                "type": "number"
+              },
+              {
+                "name": "html",
+                "label": "Wrapped Report",
+                "type": "html"
+              }
+            ],
+            "description": "Generate a Claude Code Wrapped HTML report from one or more pasted session JSONL files."
+          }
+        },
+        "runtime": "python",
+        "python_dependencies": [],
+        "node_dependencies": {},
+        "secrets_needed": [],
+        "manifest_version": "2.0"
+      }
+    },
+    {
+      "slug": "dep-check",
+      "name": "Dep Check",
+      "description": "Find dead imports in your project. Clone any public git repo and list imports that reference files no longer there.",
+      "category": "developer-tools",
+      "icon": null,
+      "author": "buildingopen",
+      "docker_image": "floom-app-app_7ku8tqkq3d:v2",
+      "marketplace_app_id": "app_7ku8tqkq3d",
+      "manifest": {
+        "name": "Dep Check",
+        "description": "Find dead imports in your project. One bash script.",
+        "actions": {
+          "analyze": {
+            "label": "Find Dead Imports",
+            "inputs": [
+              {
+                "name": "repo_url",
+                "label": "Repo URL",
+                "type": "url",
+                "required": true,
+                "description": "Public HTTPS git URL (e.g. https://github.com/owner/repo)."
+              },
+              {
+                "name": "branch",
+                "label": "Branch",
+                "type": "text",
+                "required": false,
+                "default": "",
+                "description": "Optional branch or ref to check out. Defaults to the repo default branch."
+              }
+            ],
+            "outputs": [
+              {
+                "name": "count",
+                "label": "Dead Import Count",
+                "type": "number"
+              },
+              {
+                "name": "dead_imports",
+                "label": "Dead Imports",
+                "type": "json"
+              }
+            ],
+            "description": "Clone a public git repo and list any imports that reference files that no longer exist."
+          }
+        },
+        "runtime": "python",
+        "python_dependencies": [],
+        "node_dependencies": {},
+        "secrets_needed": [],
+        "manifest_version": "2.0",
+        "apt_packages": [
+          "jq"
+        ]
+      }
+    },
+    {
+      "slug": "flyfast",
+      "name": "FlyFast",
+      "description": "Search flights like you text a friend. Live prices, 300+ airlines.",
+      "category": "productivity",
+      "icon": null,
+      "author": "federicodeponte",
+      "docker_image": "floom-app-flyfast-mkt:v3",
+      "marketplace_app_id": "app_flyfast_mkt",
+      "manifest": {
+        "name": "FlyFast",
+        "description": "Search flights like you would text a friend. Up to 100 combinations from one natural-language query.",
+        "actions": {
+          "search": {
+            "label": "Search Flights",
+            "inputs": [
+              {
+                "name": "prompt",
+                "label": "What flight do you need?",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "Cheap flight from Berlin to Lisbon first week of May"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "results",
+                "label": "Flight Results",
+                "type": "json"
+              }
+            ],
+            "description": "Natural-language flight search. Describe your trip in plain English and get scored flight options back."
+          }
+        },
+        "runtime": "python",
+        "python_dependencies": [
+          "httpx>=0.27"
+        ],
+        "node_dependencies": {},
+        "secrets_needed": [
+          "FLYFAST_INTERNAL_TOKEN"
+        ],
+        "manifest_version": "2.0",
+        "knowledge_enabled": false
+      }
+    },
+    {
+      "slug": "hook-stats",
+      "name": "Hook Stats",
+      "description": "Analyze your Claude Code bash command log. Top commands, git stats, per-day activity.",
+      "category": "productivity",
+      "icon": null,
+      "author": "buildingopen",
+      "docker_image": "floom-app-app_zezbkf86th:v1",
+      "marketplace_app_id": "app_zezbkf86th",
+      "manifest": {
+        "name": "Hook Stats",
+        "description": "Analyze your Claude Code bash command log.",
+        "actions": {
+          "analyze": {
+            "label": "Analyze Log",
+            "inputs": [
+              {
+                "name": "log_content",
+                "label": "bash-commands.log content",
+                "type": "textarea",
+                "required": true,
+                "description": "Paste the contents of ~/.claude/bash-commands.log (each line begins with a [timestamp] prefix)."
+              }
+            ],
+            "outputs": [
+              {
+                "name": "total",
+                "label": "Total Commands",
+                "type": "number"
+              },
+              {
+                "name": "today",
+                "label": "Today",
+                "type": "number"
+              },
+              {
+                "name": "top_commands",
+                "label": "Top Commands",
+                "type": "json"
+              },
+              {
+                "name": "git",
+                "label": "Git Operations",
+                "type": "json"
+              },
+              {
+                "name": "per_day",
+                "label": "Per Day (last 7)",
+                "type": "json"
+              },
+              {
+                "name": "report",
+                "label": "Report",
+                "type": "text"
+              }
+            ],
+            "description": "Parse a Claude Code bash-commands.log and return top commands, git stats, and per-day activity."
+          }
+        },
+        "runtime": "python",
+        "python_dependencies": [],
+        "node_dependencies": {},
+        "secrets_needed": [],
+        "manifest_version": "2.0"
+      }
+    },
+    {
+      "slug": "openanalytics",
+      "name": "OpenAnalytics",
+      "description": "AEO (Answer Engine Optimization) health check. 29 technical tests on any website to score AI visibility.",
+      "category": "analytics",
+      "icon": null,
+      "author": "federicodeponte",
+      "docker_image": "floom-app-app_qhe57b6buj:v1",
+      "marketplace_app_id": "app_qhe57b6buj",
+      "manifest": {
+        "name": "OpenAnalytics",
+        "description": "AEO (Answer Engine Optimization) analysis platform. Runs health checks (29 technical SEO checks with tiered scoring) and AI visibility analysis (hyperniche query generation to measure brand presence in AI responses).",
+        "actions": {
+          "health_check": {
+            "label": "AEO Health Check",
+            "inputs": [
+              {
+                "name": "url",
+                "label": "Website URL",
+                "type": "url",
+                "required": true,
+                "placeholder": "https://example.com"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "report",
+                "label": "Health Report",
+                "type": "markdown"
+              },
+              {
+                "name": "score",
+                "label": "Health Score (0-100)",
+                "type": "number"
+              },
+              {
+                "name": "details",
+                "label": "Detailed Results",
+                "type": "json"
+              }
+            ]
+          },
+          "mentions_check": {
+            "label": "AI Visibility Check",
+            "inputs": [
+              {
+                "name": "company_name",
+                "label": "Company Name",
+                "type": "text",
+                "required": true
+              },
+              {
+                "name": "industry",
+                "label": "Industry",
+                "type": "text",
+                "required": false
+              },
+              {
+                "name": "products",
+                "label": "Products (one per line)",
+                "type": "textarea",
+                "required": false
+              },
+              {
+                "name": "target_audience",
+                "label": "Target Audience",
+                "type": "text",
+                "required": false
+              },
+              {
+                "name": "num_queries",
+                "label": "Number of Queries",
+                "type": "number",
+                "required": false,
+                "default": 10
+              }
+            ],
+            "outputs": [
+              {
+                "name": "report",
+                "label": "Visibility Report",
+                "type": "markdown"
+              },
+              {
+                "name": "visibility_score",
+                "label": "Visibility Score",
+                "type": "number"
+              },
+              {
+                "name": "details",
+                "label": "Detailed Results",
+                "type": "json"
+              }
+            ]
+          }
+        },
+        "runtime": "python",
+        "python_dependencies": [
+          "fastapi>=0.104.0",
+          "uvicorn>=0.24.0",
+          "pydantic>=2.5.0",
+          "httpx>=0.25.0",
+          "beautifulsoup4>=4.12.0",
+          "lxml>=4.9.0",
+          "google-genai>=0.2.0",
+          "python-dotenv>=1.0.0"
+        ],
+        "node_dependencies": {},
+        "secrets_needed": [
+          "GEMINI_API_KEY"
+        ],
+        "manifest_version": "2.0",
+        "knowledge_enabled": true
+      }
+    },
+    {
+      "slug": "openblog",
+      "name": "OpenBlog",
+      "description": "AI blog post generator. Give it a topic, get a full post with title, outline, and body.",
+      "category": "ai",
+      "icon": "B",
+      "author": "federicodeponte",
+      "docker_image": "floom-app-app_yyyzfrybsv:v1",
+      "marketplace_app_id": "app_yyyzfrybsv",
+      "manifest": {
+        "name": "OpenBlog",
+        "description": "AI-powered SEO blog article generator",
+        "actions": {
+          "generate": {
+            "label": "Generate Articles",
+            "inputs": [
+              {
+                "name": "url",
+                "label": "Company Website URL",
+                "type": "url",
+                "required": true
+              },
+              {
+                "name": "keywords",
+                "label": "Keywords (one per line)",
+                "type": "textarea",
+                "required": true
+              }
+            ],
+            "outputs": [
+              {
+                "name": "preview",
+                "label": "Article Preview",
+                "type": "html"
+              },
+              {
+                "name": "markdown",
+                "label": "Markdown Source",
+                "type": "markdown"
+              },
+              {
+                "name": "raw",
+                "label": "Raw Response",
+                "type": "json"
+              }
+            ],
+            "description": "Generate new blog articles from keywords and a company URL",
+            "feedback": true
+          },
+          "refresh": {
+            "label": "Refresh Article",
+            "inputs": [
+              {
+                "name": "article_data",
+                "label": "Article (JSON, CSV, HTML, or paste text)",
+                "type": "file",
+                "required": true,
+                "accept": ".json,.csv,.html,.txt",
+                "parse_to": "json"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "preview",
+                "label": "Article Preview",
+                "type": "html"
+              },
+              {
+                "name": "markdown",
+                "label": "Markdown Source",
+                "type": "markdown"
+              },
+              {
+                "name": "raw",
+                "label": "Raw Response",
+                "type": "json"
+              }
+            ],
+            "description": "Re-run quality checks and URL verification on an existing article"
+          }
+        },
+        "runtime": "python",
+        "python_dependencies": [
+          "google-genai>=1.0",
+          "httpx",
+          "pydantic>=2.0",
+          "python-dotenv",
+          "defusedxml>=0.7",
+          "markdownify",
+          "openpyxl"
+        ],
+        "node_dependencies": {},
+        "secrets_needed": [
+          "GEMINI_API_KEY"
+        ],
+        "manifest_version": "2.0",
+        "knowledge_enabled": true
+      }
+    },
+    {
+      "slug": "opencontext",
+      "name": "OpenContext",
+      "description": "AI-powered company context analysis. Extracts industry, products, competitors, target audience, and voice persona from any website.",
+      "category": "marketing",
+      "icon": null,
+      "author": "federicodeponte",
+      "docker_image": "floom-app-app_czpedgen72:v1",
+      "marketplace_app_id": "app_czpedgen72",
+      "manifest": {
+        "name": "OpenContext",
+        "description": "AI-powered company context analysis. Extracts comprehensive company information (industry, products, competitors, target audience, voice persona, visual identity) from any website using Google Gemini with Search grounding.",
+        "actions": {
+          "analyze": {
+            "label": "Analyze Company",
+            "inputs": [
+              {
+                "name": "url",
+                "label": "Company Website URL",
+                "type": "url",
+                "required": true,
+                "placeholder": "https://example.com"
+              },
+              {
+                "name": "additional_context",
+                "label": "Additional Context",
+                "type": "textarea",
+                "required": false,
+                "placeholder": "Any extra info about the company (optional)"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "company_name",
+                "label": "Company Name",
+                "type": "text"
+              },
+              {
+                "name": "summary",
+                "label": "Company Summary",
+                "type": "markdown"
+              },
+              {
+                "name": "context_json",
+                "label": "Full Context Data",
+                "type": "json"
+              }
+            ]
+          }
+        },
+        "runtime": "python",
+        "python_dependencies": [
+          "pydantic>=2.0",
+          "python-dotenv>=1.0",
+          "httpx>=0.25",
+          "google-genai>=1.0"
+        ],
+        "node_dependencies": {},
+        "secrets_needed": [
+          "GEMINI_API_KEY"
+        ],
+        "manifest_version": "2.0",
+        "knowledge_enabled": true
+      }
+    },
+    {
+      "slug": "opendraft",
+      "name": "OpenDraft",
+      "description": "Research drafts with verified citations. Academic-grade.",
+      "category": "ai",
+      "icon": null,
+      "author": "floomhq",
+      "docker_image": "floom-app-app_opendraft_mkt:v2",
+      "marketplace_app_id": "app_opendraft_mkt",
+      "manifest": {
+        "name": "OpenDraft",
+        "description": "Generate research-grade drafts with structured outlines and citations. Powered by Gemini AI.",
+        "actions": {
+          "generate": {
+            "label": "Generate Draft",
+            "inputs": [
+              {
+                "name": "topic",
+                "label": "Research Topic",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "The role of AI in accelerating drug discovery"
+              },
+              {
+                "name": "level",
+                "label": "Academic Level",
+                "type": "text",
+                "required": false,
+                "default": "research_paper",
+                "placeholder": "research_paper / bachelor / master / phd"
+              },
+              {
+                "name": "style",
+                "label": "Citation Style",
+                "type": "text",
+                "required": false,
+                "default": "apa",
+                "placeholder": "apa / ieee / chicago / mla"
+              },
+              {
+                "name": "blurb",
+                "label": "Focus / Context (optional)",
+                "type": "text",
+                "required": false,
+                "placeholder": "Focus on LLM-based protein folding approaches"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "preview",
+                "label": "Draft Preview",
+                "type": "html"
+              },
+              {
+                "name": "markdown",
+                "label": "Markdown Source",
+                "type": "markdown"
+              },
+              {
+                "name": "title",
+                "label": "Title",
+                "type": "text"
+              },
+              {
+                "name": "word_count",
+                "label": "Word Count",
+                "type": "number"
+              }
+            ],
+            "description": "Generate a research draft on any topic.",
+            "feedback": true
+          }
+        },
+        "runtime": "python",
+        "python_dependencies": [
+          "google-generativeai>=0.8"
+        ],
+        "node_dependencies": {},
+        "secrets_needed": [
+          "GOOGLE_API_KEY"
+        ],
+        "manifest_version": "2.0"
+      }
+    },
+    {
+      "slug": "opengtm",
+      "name": "OpenGTM",
+      "description": "AI GTM toolkit. AEO health scoring and ICP lead qualification, straight from any company URL.",
+      "category": "marketing",
+      "icon": null,
+      "author": "buildingopen",
+      "docker_image": "floom-app-app_hmce3ypehk:v1",
+      "marketplace_app_id": "app_hmce3ypehk",
+      "manifest": {
+        "name": "OpenGTM",
+        "description": "Open source AI GTM toolkit. AEO health scoring and ICP lead qualification, straight from the terminal. MIT licensed alternative to Clay, Apollo, and Semrush.",
+        "actions": {
+          "aeo_health": {
+            "label": "AEO Health Check",
+            "inputs": [
+              {
+                "name": "url",
+                "label": "URL",
+                "type": "url",
+                "required": true,
+                "placeholder": "https://floom.dev",
+                "description": "Page to analyze."
+              },
+              {
+                "name": "timeout",
+                "label": "Timeout (seconds)",
+                "type": "number",
+                "required": false,
+                "default": 30,
+                "description": "HTTP request timeout."
+              }
+            ],
+            "outputs": [
+              {
+                "name": "url",
+                "label": "URL",
+                "type": "text"
+              },
+              {
+                "name": "score",
+                "label": "Score",
+                "type": "number"
+              },
+              {
+                "name": "grade",
+                "label": "Grade",
+                "type": "text"
+              },
+              {
+                "name": "band",
+                "label": "Band",
+                "type": "text"
+              },
+              {
+                "name": "checks_passed",
+                "label": "Checks Passed",
+                "type": "number"
+              },
+              {
+                "name": "checks_failed",
+                "label": "Checks Failed",
+                "type": "number"
+              },
+              {
+                "name": "issues",
+                "label": "Issues",
+                "type": "json"
+              },
+              {
+                "name": "tier_details",
+                "label": "Tier Details",
+                "type": "json"
+              }
+            ],
+            "description": "Run 29 checks across technical SEO, structured data, AI crawler access, and authority signals. Returns a tiered score and letter grade (A+ to F) so you know whether ChatGPT and Perplexity can actually find you."
+          },
+          "score_lead": {
+            "label": "Score Lead (ICP)",
+            "inputs": [
+              {
+                "name": "lead",
+                "label": "Lead (JSON)",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "{\"domain\": \"acme.com\", \"company\": \"Acme\", \"industry\": \"B2B SaaS\"}",
+                "description": "Lead object as JSON. Minimum: { \"domain\": \"...\", \"company\": \"...\", \"industry\": \"...\" }. Optionally include research_data from opengtm research.py."
+              },
+              {
+                "name": "icp_profile",
+                "label": "ICP Profile",
+                "type": "text",
+                "required": false,
+                "default": "default",
+                "description": "Built-in profile key: default, saas, agency, enterprise, ..."
+              },
+              {
+                "name": "custom_profile",
+                "label": "Custom Profile (optional JSON)",
+                "type": "textarea",
+                "required": false,
+                "description": "Full ICP profile object as JSON to override the preset. Leave empty to use the built-in profile."
+              }
+            ],
+            "outputs": [
+              {
+                "name": "score",
+                "label": "Score",
+                "type": "number"
+              },
+              {
+                "name": "tier",
+                "label": "Tier",
+                "type": "text"
+              },
+              {
+                "name": "recommended_action",
+                "label": "Recommended Action",
+                "type": "text"
+              },
+              {
+                "name": "reasons",
+                "label": "Reasons",
+                "type": "json"
+              },
+              {
+                "name": "breakdown",
+                "label": "Breakdown",
+                "type": "json"
+              }
+            ],
+            "description": "Score a lead on ICP fit (0-100) across six dimensions (size, industry, digital maturity, pain signals, revenue, contact quality). Returns tier (hot/warm/cold) and a recommended next action."
+          }
+        },
+        "runtime": "python",
+        "python_dependencies": [
+          "httpx>=0.27.0",
+          "beautifulsoup4>=4.12.0",
+          "lxml>=5.0.0",
+          "requests>=2.31.0",
+          "python-dotenv>=1.0.0"
+        ],
+        "node_dependencies": {},
+        "secrets_needed": [],
+        "manifest_version": "2.0"
+      }
+    },
+    {
+      "slug": "openkeyword",
+      "name": "OpenKeyword",
+      "description": "AI-powered SEO keyword research. 5-stage Gemini pipeline: company analysis, research, keyword generation, scoring, clustering.",
+      "category": "seo",
+      "icon": null,
+      "author": "federicodeponte",
+      "docker_image": "floom-app-app_d6utgg7bdz:v1",
+      "marketplace_app_id": "app_d6utgg7bdz",
+      "manifest": {
+        "name": "OpenKeyword",
+        "description": "AI-powered SEO keyword research using Google Gemini. Runs a 5-stage pipeline: company analysis, deep research, AI keyword generation, scoring/deduplication, and clustering.",
+        "actions": {
+          "research": {
+            "label": "Research Keywords",
+            "inputs": [
+              {
+                "name": "company_url",
+                "label": "Company Website URL",
+                "type": "url",
+                "required": true,
+                "placeholder": "https://example.com"
+              },
+              {
+                "name": "company_name",
+                "label": "Company Name",
+                "type": "text",
+                "required": false,
+                "placeholder": "Auto-detected from URL if empty"
+              },
+              {
+                "name": "target_count",
+                "label": "Target Keyword Count",
+                "type": "number",
+                "required": false,
+                "default": 50
+              },
+              {
+                "name": "language",
+                "label": "Language Code",
+                "type": "text",
+                "required": false,
+                "default": "en"
+              },
+              {
+                "name": "region",
+                "label": "Region Code",
+                "type": "text",
+                "required": false,
+                "default": "us"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "summary",
+                "label": "Research Summary",
+                "type": "markdown"
+              },
+              {
+                "name": "keywords",
+                "label": "Keywords",
+                "type": "table"
+              },
+              {
+                "name": "clusters",
+                "label": "Keyword Clusters",
+                "type": "json"
+              },
+              {
+                "name": "full_results",
+                "label": "Full Pipeline Results",
+                "type": "json"
+              }
+            ]
+          }
+        },
+        "runtime": "python",
+        "python_dependencies": [
+          "google-genai>=1.0.0",
+          "pydantic>=2.0.0",
+          "python-dotenv>=1.0.0"
+        ],
+        "node_dependencies": {},
+        "secrets_needed": [
+          "GEMINI_API_KEY"
+        ],
+        "manifest_version": "2.0",
+        "knowledge_enabled": true
+      }
+    },
+    {
+      "slug": "openpaper",
+      "name": "OpenPaper",
+      "description": "Generate fully-cited academic research papers. 18 AI agents search 500M+ sources and write thesis-level papers with verified citations.",
+      "category": "research",
+      "icon": null,
+      "author": "federicodeponte",
+      "docker_image": "floom-app-app_yc859v94d4:v1",
+      "marketplace_app_id": "app_yc859v94d4",
+      "manifest": {
+        "name": "OpenPaper",
+        "description": "Generate fully-cited academic research papers. 18 AI agents search 500M+ sources (OpenAlex, Crossref, Semantic Scholar) and write thesis-level papers with verified citations.",
+        "actions": {
+          "start_paper_generation": {
+            "label": "Start Paper",
+            "inputs": [
+              {
+                "name": "topic",
+                "label": "Topic",
+                "type": "textarea",
+                "required": true,
+                "description": "Research topic or question (max 500 chars). Be specific for better results."
+              },
+              {
+                "name": "level",
+                "label": "Academic Level",
+                "type": "text",
+                "required": false,
+                "default": "Graduate",
+                "description": "High School | Undergraduate | Graduate | PhD"
+              },
+              {
+                "name": "pages",
+                "label": "Pages",
+                "type": "text",
+                "required": false,
+                "default": "15-20",
+                "description": "Target page range: 5-10, 10-15, 15-20, 20-30, 30-40, 40-50, 50-60"
+              },
+              {
+                "name": "citation_style",
+                "label": "Citation Style",
+                "type": "text",
+                "required": false,
+                "default": "APA 7th",
+                "description": "APA 7th | MLA 9th | Chicago 17th | Harvard | IEEE | Vancouver"
+              },
+              {
+                "name": "language",
+                "label": "Language",
+                "type": "text",
+                "required": false,
+                "default": "English",
+                "description": "Output language (English, Spanish, French, German, etc.)"
+              },
+              {
+                "name": "context_notes",
+                "label": "Extra Context",
+                "type": "textarea",
+                "required": false,
+                "default": "",
+                "description": "Optional extra instructions for the paper (max 50,000 chars)."
+              }
+            ],
+            "outputs": [
+              {
+                "name": "generation_id",
+                "label": "Generation ID",
+                "type": "text"
+              },
+              {
+                "name": "status",
+                "label": "Status",
+                "type": "text"
+              },
+              {
+                "name": "track_url",
+                "label": "Track URL",
+                "type": "text"
+              }
+            ],
+            "description": "Start generating a cited academic paper. Returns a generation_id immediately; papers take 10-20 minutes to finish."
+          },
+          "check_paper_status": {
+            "label": "Check Status",
+            "inputs": [
+              {
+                "name": "generation_id",
+                "label": "Generation ID",
+                "type": "text",
+                "required": true,
+                "description": "The generation_id returned by Start Paper."
+              }
+            ],
+            "outputs": [
+              {
+                "name": "status",
+                "label": "Status",
+                "type": "text"
+              },
+              {
+                "name": "phase",
+                "label": "Phase",
+                "type": "text"
+              },
+              {
+                "name": "progress_percent",
+                "label": "Progress %",
+                "type": "number"
+              },
+              {
+                "name": "pdf_url",
+                "label": "PDF URL",
+                "type": "text"
+              },
+              {
+                "name": "docx_url",
+                "label": "DOCX URL",
+                "type": "text"
+              },
+              {
+                "name": "zip_url",
+                "label": "ZIP URL",
+                "type": "text"
+              }
+            ],
+            "description": "Poll a paper generation for progress and download links."
+          },
+          "list_my_papers": {
+            "label": "List Papers",
+            "inputs": [
+              {
+                "name": "limit",
+                "label": "Limit",
+                "type": "number",
+                "required": false,
+                "default": 10,
+                "description": "Max papers to return (1-50)."
+              }
+            ],
+            "outputs": [
+              {
+                "name": "total",
+                "label": "Total",
+                "type": "number"
+              },
+              {
+                "name": "papers",
+                "label": "Papers",
+                "type": "json"
+              }
+            ],
+            "description": "List your previously generated papers with download links."
+          }
+        },
+        "runtime": "python",
+        "python_dependencies": [
+          "httpx",
+          "mcp"
+        ],
+        "node_dependencies": {},
+        "secrets_needed": [
+          "OPENPAPER_API_TOKEN"
+        ],
+        "manifest_version": "2.0"
+      }
+    },
+    {
+      "slug": "openslides",
+      "name": "OpenSlides",
+      "description": "AI pitch deck generator. Turn a one-line idea into a structured slide outline.",
+      "category": "ai",
+      "icon": "S",
+      "author": "federicodeponte",
+      "docker_image": "floom-app-app_dxphzp99xs:v1",
+      "marketplace_app_id": "app_dxphzp99xs",
+      "manifest": {
+        "name": "OpenSlides",
+        "description": "AI pitch deck generator. Point it at a prompt (and optionally a company URL) and get a branded pitch deck back as HTML slides plus a base64-encoded PDF.",
+        "actions": {
+          "generate": {
+            "label": "Generate Deck",
+            "inputs": [
+              {
+                "name": "prompt",
+                "label": "Prompt",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "Floom is the production layer for AI scripts. Raising $200K F&F at $8M cap.",
+                "description": "What the deck is about. Include company, stage, ask, and audience."
+              },
+              {
+                "name": "company_url",
+                "label": "Company URL",
+                "type": "url",
+                "required": false,
+                "placeholder": "https://floom.dev",
+                "description": "Optional company website. If set, brand colors, fonts, and logo are scraped from it."
+              },
+              {
+                "name": "audience",
+                "label": "Audience",
+                "type": "text",
+                "required": false,
+                "default": "vc",
+                "description": "Target audience: vc, angel, ff, or customer."
+              },
+              {
+                "name": "deck_type",
+                "label": "Deck Type",
+                "type": "text",
+                "required": false,
+                "default": "pitch",
+                "description": "Type of deck: pitch, sales, update, or general."
+              }
+            ],
+            "outputs": [
+              {
+                "name": "preview",
+                "label": "Slide Deck Preview",
+                "type": "html"
+              },
+              {
+                "name": "slide_count",
+                "label": "Slide Count",
+                "type": "number"
+              },
+              {
+                "name": "slides",
+                "label": "Raw Slide Data",
+                "type": "json"
+              },
+              {
+                "name": "deck_id",
+                "label": "Deck ID",
+                "type": "text"
+              },
+              {
+                "name": "pdf_base64",
+                "label": "PDF (base64)",
+                "type": "text"
+              },
+              {
+                "name": "pdf_size_bytes",
+                "label": "PDF Size (bytes)",
+                "type": "number"
+              }
+            ],
+            "description": "Generate a branded pitch deck from a prompt and optional company URL. Scrapes brand colors, fonts, and logo from the URL. Returns slide HTML and (when PDF export is available) a base64-encoded PDF."
+          },
+          "iterate": {
+            "label": "Iterate Slides",
+            "inputs": [
+              {
+                "name": "deck_id",
+                "label": "Previous Deck ID",
+                "type": "text",
+                "required": true,
+                "description": "ID of the deck to iterate on."
+              },
+              {
+                "name": "prompt",
+                "label": "Refinement",
+                "type": "textarea",
+                "required": true,
+                "description": "What to change or improve on the selected slides."
+              },
+              {
+                "name": "slide_indices",
+                "label": "Slide Indices (JSON array)",
+                "type": "textarea",
+                "required": true,
+                "placeholder": "[0, 2, 4]",
+                "description": "0-based indices of slides to regenerate as a JSON array, e.g. [2, 4, 5]."
+              }
+            ],
+            "outputs": [
+              {
+                "name": "deck_id",
+                "label": "Deck ID",
+                "type": "text"
+              },
+              {
+                "name": "slide_count",
+                "label": "Slide Count",
+                "type": "number"
+              },
+              {
+                "name": "pdf_base64",
+                "label": "PDF (base64)",
+                "type": "text"
+              },
+              {
+                "name": "pdf_size_bytes",
+                "label": "PDF Size (bytes)",
+                "type": "number"
+              }
+            ],
+            "description": "Regenerate specific slides of a previously generated deck while keeping the rest. Returns the updated deck."
+          },
+          "resolve_logo": {
+            "label": "Resolve Logo",
+            "inputs": [
+              {
+                "name": "name",
+                "label": "Company or Domain",
+                "type": "text",
+                "required": true,
+                "placeholder": "stripe.com"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "url",
+                "label": "Logo URL",
+                "type": "text"
+              },
+              {
+                "name": "format",
+                "label": "Format",
+                "type": "text"
+              },
+              {
+                "name": "provider",
+                "label": "Provider",
+                "type": "text"
+              }
+            ],
+            "description": "Find the best logo URL for a company name or domain. Uses Simple Icons, svgl, and favicon fallbacks."
+          }
+        },
+        "runtime": "python",
+        "python_dependencies": [
+          "google-genai==1.9.0",
+          "httpx==0.28.1",
+          "Pillow==11.1.0",
+          "PyPDF2==3.0.1",
+          "python-pptx==1.0.2",
+          "colorthief==0.2.1"
+        ],
+        "node_dependencies": {},
+        "secrets_needed": [
+          "GEMINI_API_KEY"
+        ],
+        "manifest_version": "2.0"
+      }
+    },
+    {
+      "slug": "session-recall",
+      "name": "Session Recall",
+      "description": "Search and analyze Claude Code session transcripts to recover context after compaction. Keyword search, recent messages, and full report.",
+      "category": "productivity",
+      "icon": null,
+      "author": "buildingopen",
+      "docker_image": "floom-app-app_3qcf6vkndz:v1",
+      "marketplace_app_id": "app_3qcf6vkndz",
+      "manifest": {
+        "name": "Session Recall",
+        "description": "Search and analyze Claude Code session transcripts to recover context after compaction.",
+        "actions": {
+          "search": {
+            "label": "Search",
+            "inputs": [
+              {
+                "name": "jsonl_session",
+                "label": "Session JSONL",
+                "type": "textarea",
+                "required": true,
+                "description": "Paste the full contents of a ~/.claude/projects/.../<session>.jsonl file."
+              },
+              {
+                "name": "keywords",
+                "label": "Keywords",
+                "type": "text",
+                "required": true,
+                "description": "Space or comma separated keywords."
+              },
+              {
+                "name": "max_results",
+                "label": "Max Results",
+                "type": "number",
+                "required": false,
+                "default": 15
+              }
+            ],
+            "outputs": [
+              {
+                "name": "matches",
+                "label": "Matches",
+                "type": "text"
+              }
+            ],
+            "description": "Keyword search across a Claude Code session transcript (AND logic)."
+          },
+          "recent": {
+            "label": "Recent Messages",
+            "inputs": [
+              {
+                "name": "jsonl_session",
+                "label": "Session JSONL",
+                "type": "textarea",
+                "required": true,
+                "description": "Paste a session .jsonl file."
+              },
+              {
+                "name": "count",
+                "label": "Count",
+                "type": "number",
+                "required": false,
+                "default": 20
+              }
+            ],
+            "outputs": [
+              {
+                "name": "messages",
+                "label": "Messages",
+                "type": "text"
+              }
+            ],
+            "description": "Return the last N human/assistant messages, skipping tool noise."
+          },
+          "report": {
+            "label": "Session Report",
+            "inputs": [
+              {
+                "name": "jsonl_session",
+                "label": "Session JSONL",
+                "type": "textarea",
+                "required": true,
+                "description": "Paste a session .jsonl file."
+              }
+            ],
+            "outputs": [
+              {
+                "name": "stats",
+                "label": "Stats",
+                "type": "json"
+              },
+              {
+                "name": "retry_loops",
+                "label": "Retry Loops",
+                "type": "json"
+              },
+              {
+                "name": "error_categories",
+                "label": "Error Categories",
+                "type": "json"
+              },
+              {
+                "name": "suggested_rules",
+                "label": "Suggested CLAUDE.md Rules",
+                "type": "json"
+              },
+              {
+                "name": "suggested_memories",
+                "label": "Suggested MEMORY.md Entries",
+                "type": "json"
+              }
+            ],
+            "description": "Analyze retry loops, errors, corrections, and inflated self-scores. Suggests CLAUDE.md rules and MEMORY.md entries."
+          }
+        },
+        "runtime": "python",
+        "python_dependencies": [],
+        "node_dependencies": {},
+        "secrets_needed": [],
+        "manifest_version": "2.0"
+      }
+    }
+  ],
+  "global_secrets": {},
+  "per_app_secrets": {
+    "openslides": {
+      "GEMINI_API_KEY": "REDACTED_GEMINI_KEY"
+    },
+    "flyfast": {
+      "FLYFAST_INTERNAL_TOKEN": "REDACTED_FLYFAST_TOKEN"
+    },
+    "opendraft": {
+      "GOOGLE_API_KEY": "REDACTED_GEMINI_KEY"
+    },
+    "openblog": {
+      "GEMINI_API_KEY": "REDACTED_GEMINI_KEY"
+    },
+    "openkeyword": {
+      "GEMINI_API_KEY": "REDACTED_GEMINI_KEY"
+    },
+    "openanalytics": {
+      "GEMINI_API_KEY": "REDACTED_GEMINI_KEY"
+    },
+    "opengtm": {
+      "GEMINI_API_KEY": "REDACTED_GEMINI_KEY"
+    },
+    "claude-wrapped": {
+      "GEMINI_API_KEY": "REDACTED_GEMINI_KEY"
+    },
+    "opencontext": {
+      "GEMINI_API_KEY": "REDACTED_GEMINI_KEY"
+    },
+    "bouncer": {
+      "GEMINI_API_KEY": "REDACTED_GEMINI_KEY"
+    }
+  }
+}
